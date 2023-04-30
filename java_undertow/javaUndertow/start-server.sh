@@ -1,0 +1,1 @@
+java -server -XX:+UseNUMA -XX:+UseParallelGC -jar target/app.jar
