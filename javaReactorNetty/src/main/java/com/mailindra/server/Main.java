@@ -15,6 +15,7 @@ public class Main {
                         .route(r -> r.get("/",
                                 (req, res) -> res.header(CONTENT_TYPE, TEXT_PLAIN)
                                         .sendString(Mono.just(content))));
+        server.warmup().block();
 
         server.bindNow()
                 .onDispose()
