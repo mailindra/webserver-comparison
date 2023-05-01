@@ -11,11 +11,10 @@ import java.nio.charset.StandardCharsets;
 import static io.undertow.util.Headers.CONTENT_TYPE;
 
 public class GreetingWebServer {
-    static HttpHandler greetingHandler() {
-        var content = "Hello, People";
-        var contentBytes = content.getBytes(StandardCharsets.UTF_8);
-        var buffer = ByteBuffer.allocateDirect(contentBytes.length)
-                .put(contentBytes)
+    private static HttpHandler greetingHandler() {
+        var content = "Hello, People".getBytes(StandardCharsets.UTF_8);
+        var buffer = ByteBuffer.allocateDirect(content.length)
+                .put(content)
                 .flip();
 
         return exchange -> {
@@ -23,13 +22,17 @@ public class GreetingWebServer {
             exchange.getResponseSender().send(buffer.duplicate());
         };
     }
+    private static HttpHandler pathHandler() {
+        return new PathHandler()
+                .addExactPath("/", greetingHandler());
+    }
 
     public static void main(String[] args) {
         Undertow.builder()
                 .addHttpListener(8080,"0.0.0.0" )
                 .setIoThreads(Runtime.getRuntime().availableProcessors() * 2)
                 .setServerOption(UndertowOptions.ALWAYS_SET_KEEP_ALIVE, false)
-                .setHandler(new PathHandler().addExactPath("/", greetingHandler()))
+                .setHandler(pathHandler())
                 .build()
                 .start();
     }
