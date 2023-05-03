@@ -1,0 +1,14 @@
+{
+  "name": "js_fastify",
+  "version": "1.0.0",
+  "description": "Simple Greeting Web using Fastify",
+  "main": "simple_server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ronny Mailindra",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.17.0"
+  }
+}
